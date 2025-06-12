@@ -8,11 +8,17 @@ public class Grid extends JPanel{
 
     private Canvas canvas;
     JPanel grid = new JPanel();
-    public Grid(Canvas canvas){
+    private int width;
+    private int height;
+
+    public Grid(Canvas canvas, int width, int height){
         this.canvas = canvas;
+        this.width = width;
+        this.height = height;
+        
         grid.setVisible(true);
         grid.setLayout(new GridLayout(3,3));
-        
+        grid.setPreferredSize(new Dimension(width, height));
     }
 
     public void createGrid(){
@@ -23,10 +29,10 @@ public class Grid extends JPanel{
             tf.setHorizontalAlignment(JTextField.CENTER);
 
             tf.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            tf.setBackground(Color.YELLOW);
+            tf.setBackground(Color.WHITE);
 
             tf.setSize(420,420);
-            tf.setPreferredSize(new Dimension(100,100));
+            tf.setPreferredSize(new Dimension(50,50));
             
             grid.add(tf);
         }

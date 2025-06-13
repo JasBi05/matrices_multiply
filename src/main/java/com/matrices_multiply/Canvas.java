@@ -1,6 +1,7 @@
 package com.matrices_multiply;
 import javax.swing.*;
 import java.awt.*;
+import static com.matrices_multiply.Grid.GridType.*;
 
 public class Canvas{
 
@@ -43,14 +44,14 @@ public class Canvas{
         printText();
 
         //first matrix
-        Grid grid = new Grid(this, 300, 300);
+        Grid grid = new Grid(this, 300, 300, MATRIX_A);
         grid.createGrid();
         gbc.gridx = 0;
         gbc.gridy = 1;
         contentPanel.add(grid.grid, gbc);
 
         //second matrix
-        Grid grid2 = new Grid(this, 300, 300);
+        Grid grid2 = new Grid(this, 300, 300, MATRIX_B);
         grid2.createGrid();
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -58,7 +59,7 @@ public class Canvas{
         
 
         //third matrix -> Result matrix
-        Grid grid3 = new Grid(this, 300, 300);
+        Grid grid3 = new Grid(this, 300, 300, RESULT);
         grid3.createGrid();
         gbc.gridx = 1;
         gbc.gridy = 1;

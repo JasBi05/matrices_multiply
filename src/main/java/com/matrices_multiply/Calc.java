@@ -4,9 +4,9 @@ import java.awt.*;
 
 public class Calc {
 
-    public int matrixA[][];
-    public int matrixB[][];
-    public int matrixR[][];
+    public int matrixA[][] = new int[3][3];
+    public int matrixB[][] = new int[3][3];
+    public int matrixR[][] = new int[3][3];
 
 
     public void multiply(){

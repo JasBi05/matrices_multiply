@@ -43,27 +43,30 @@ public class Canvas{
 
         printText();
 
+        Calc calc = new Calc();
+        //third matrix -> Result matrix
+        Grid grid3 = new Grid(this, 300, 300, RESULT, null, calc); // Ergebnis-Grid kennt kein weiteres Ergebnis-Grid
+        grid3.createGrid();
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        contentPanel.add(grid3.grid, gbc);
+
         //first matrix
-        Grid grid = new Grid(this, 300, 300, MATRIX_A);
+        Grid grid = new Grid(this, 300, 300, MATRIX_A, grid3, calc); // A kennt Ergebnis-Grid und Calc
         grid.createGrid();
         gbc.gridx = 0;
         gbc.gridy = 1;
         contentPanel.add(grid.grid, gbc);
 
         //second matrix
-        Grid grid2 = new Grid(this, 300, 300, MATRIX_B);
+        Grid grid2 = new Grid(this, 300, 300, MATRIX_B, grid3, calc); // B kennt Ergebnis-Grid und Calc
         grid2.createGrid();
         gbc.gridx = 1;
         gbc.gridy = 0;
         contentPanel.add(grid2.grid, gbc);
         
 
-        //third matrix -> Result matrix
-        Grid grid3 = new Grid(this, 300, 300, RESULT);
-        grid3.createGrid();
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        contentPanel.add(grid3.grid, gbc);
+        
     }
     
     private void printText(){

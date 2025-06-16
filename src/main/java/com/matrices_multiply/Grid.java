@@ -15,15 +15,18 @@ public class Grid extends JPanel{
     private int height;
     private JTextField fields[][];
     private GridType type;
+    private Grid resultGrid; 
+    private Calc calc;
 
     JPanel grid = new JPanel();
-    Calc calc = new Calc();
 
-    public Grid(Canvas canvas, int width, int height, GridType type){
+    public Grid(Canvas canvas, int width, int height, GridType type, Grid resultGrid, Calc calc){
         this.canvas = canvas;
         this.width = width;
         this.height = height;
         this.type = type;
+        this.resultGrid = resultGrid;
+        this.calc = calc;
         grid.setVisible(true);
         grid.setLayout(new GridLayout(3,3));
         grid.setPreferredSize(new Dimension(width, height));
@@ -34,7 +37,7 @@ public class Grid extends JPanel{
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
 
-            JTextField tf = new JTextField("");
+            JTextField tf = new JTextField("1");
             tf.setHorizontalAlignment(JTextField.CENTER);
             tf.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             tf.setBackground(Color.WHITE);
@@ -42,22 +45,11 @@ public class Grid extends JPanel{
             fields[row][col] = tf;
             grid.add(tf);
 
-            // DocumentListener for Live-Evaluation
+            // DocumentListener for live calculation
             tf.getDocument().addDocumentListener(new DocumentListener() {
-            public void insertUpdate(DocumentEvent e) {
-            saveTextFieldAndCalc();
-            finalResult();
-            }
-
-             public void removeUpdate(DocumentEvent e) {
-            saveTextFieldAndCalc();
-            finalResult();
-            }
-
-            public void changedUpdate(DocumentEvent e) {
-            saveTextFieldAndCalc();
-            finalResult();
-            }
+            public void insertUpdate(DocumentEvent e) { saveTextFieldAndCalc(); }
+            public void removeUpdate(DocumentEvent e) { saveTextFieldAndCalc(); }
+            public void changedUpdate(DocumentEvent e) { saveTextFieldAndCalc(); }
             });
 
             }
@@ -68,7 +60,20 @@ public class Grid extends JPanel{
     private void saveTextFieldAndCalc() {
         saveTextField();
         calc.multiply();
+        if (resultGrid != null) {
+            resultGrid.updateFieldsFromCalc();
+        }
+    }
+
     
+    public void updateFieldsFromCalc() {
+        if (type == GridType.RESULT) {
+            for (int row = 0; row < 3; row++) {
+                for (int col = 0; col < 3; col++) {
+                    fields[row][col].setText(String.valueOf(calc.matrixR[row][col]));
+                }
+            }
+        }
     }
 
     public void saveTextField(){
@@ -79,7 +84,7 @@ public class Grid extends JPanel{
             try {
                 value = Integer.parseInt(text);
             } catch (NumberFormatException e) {
-                System.out.println("Error");
+                value = 0;
             }
             if (type == GridType.MATRIX_A) {
                 calc.matrixA[row][col] = value;
@@ -88,14 +93,6 @@ public class Grid extends JPanel{
             } else if (type == GridType.RESULT) {
                 calc.matrixR[row][col] = value;
             }
-            }
-        }
-    }
-    public void finalResult(){
-
-          for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-                fields[row][col].setText(String.valueOf(calc.matrixR[row][col]));
             }
         }
     }
